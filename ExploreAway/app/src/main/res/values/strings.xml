@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ExploreAway</string>
+    <string name="search_text_hint">Enter search text</string>
 </resources>

@@ -2,7 +2,7 @@ package com.amayasan.exploreaway
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.amayasan.exploreaway.ui.fragment.SearchFragment
+import com.amayasan.exploreaway.ui.fragment.VenueSearchFragment
 
 class ExploreActivity : AppCompatActivity() {
 
@@ -11,7 +11,7 @@ class ExploreActivity : AppCompatActivity() {
         setContentView(R.layout.explore_activity)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, SearchFragment.newInstance())
+                .replace(R.id.container, VenueSearchFragment.newInstance())
                 .commitNow()
         }
     }

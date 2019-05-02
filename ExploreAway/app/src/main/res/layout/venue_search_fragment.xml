@@ -5,7 +5,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.fragment.VenueSearchFragment"
-        android:id="@+id/root_layout"
+        android:id="@+id/venue_search_root_layout"
+        android:orientation="vertical"
         android:padding="@dimen/standard_padding">
 
     <AutoCompleteTextView
@@ -17,5 +18,17 @@
             android:focusedByDefault="true"
             android:focusable="true"
             android:focusableInTouchMode="true"/>
+
+    <Button
+            android:id="@+id/venue_search_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/search"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/venue_search_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"/>
 
 </LinearLayout>

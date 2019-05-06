@@ -6,20 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.TextView
+import android.widget.ImageView
 import android.widget.Toast
-import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.amayasan.exploreaway.R
 import com.amayasan.exploreaway.model.Model
 import com.amayasan.exploreaway.service.FoursquareApiService
+import com.amayasan.exploreaway.ui.adapter.RecyclerBaseAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.venue_search_fragment.*
+import com.bumptech.glide.Glide
+import androidx.databinding.BindingAdapter
+
+
 
 
 class VenueSearchFragment : androidx.fragment.app.Fragment() {
@@ -34,7 +37,7 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
 
     private var disposable: Disposable? = null
 
-    private lateinit var viewModel: VenueSearchViewModel
+    private lateinit var venueSearchViewModel: VenueSearchViewModel
     private lateinit var recyclerViewAdapter : VenueCardAdapter
 
     override fun onCreateView(
@@ -47,10 +50,11 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        // Initialize the ViewModel and observe changes
-        viewModel = ViewModelProviders.of(this).get(VenueSearchViewModel::class.java)
-        viewModel.venues.observe(this, Observer {
-            recyclerViewAdapter.replaceItems(it ?: emptyList())
+        // Initialize the ViewModel and observe changes to the venues
+        venueSearchViewModel = ViewModelProviders.of(this).get(VenueSearchViewModel::class.java)
+        venueSearchViewModel.venues.observe(this, Observer {
+            // Venues changed, update the data in the adapter
+            recyclerViewAdapter.setData(it ?: emptyList())
         })
     }
 
@@ -112,7 +116,7 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
         }
 
         // Set the OnClickListener for the Search button
-        venue_search_button.setOnClickListener { beginVenueSearch(venue_search_auto_complete_text_view.text.toString()) }
+        venue_search_button.setOnClickListener { doVenueSearch(venue_search_auto_complete_text_view.text.toString()) }
 
         // Set up the RecyclerView with and Adapter
         venue_search_recycler_view.layoutManager = LinearLayoutManager(context)
@@ -122,9 +126,9 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
 
     }
 
-    private fun beginVenueSearch(query: String) {
+    private fun doVenueSearch(query: String) {
         disposable =
-                foursquareApiService.searchVenues(query = query)
+                foursquareApiService.doVenueSearchV2(query = query)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
@@ -134,48 +138,27 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
     }
 
     fun showResult(result : Model.Result) {
-        viewModel.venues.postValue(result.response.venues)
-        //recyclerViewAdapter.replaceItems(result.response.venues)
+        // Update the venues in ViewModel
+        venueSearchViewModel.venues.postValue(result.response.venues)
     }
 
     fun showError(message : String?) {
-        message?.length
+        // TODO: Show an error when API call fails
     }
 
-    class VenueCardAdapter :
-        RecyclerView.Adapter<VenueCardAdapter.VenueCardViewHolder>() {
+    class VenueCardAdapter : RecyclerBaseAdapter() {
+        private var data: List<Model.Venue> = emptyList()
 
-        var items: List<Model.Venue> = emptyList()
+        override fun getLayoutIdForPosition(position: Int) = R.layout.venue_search_item_view_holder
 
-        fun replaceItems(newItems: List<Model.Venue>) {
-            items = newItems
+        override fun getViewModel(position: Int) = data[position]
+
+        override fun getItemCount() = data.size
+
+        fun setData(newData: List<Model.Venue>) {
+            data = newData
             notifyDataSetChanged()
         }
 
-        // Provide a reference to the views for each data item
-        // Complex data items may need more than one view per item, and
-        // you provide access to all the views for a data item in a view holder.
-        // Each data item is just a string in this case that is shown in a TextView.
-        class VenueCardViewHolder(val cardView: CardView) : RecyclerView.ViewHolder(cardView)
-
-        // Create new views (invoked by the layout manager)
-        override fun onCreateViewHolder(parent: ViewGroup,
-                                        viewType: Int): VenueCardAdapter.VenueCardViewHolder {
-            // create a new view
-            val cardView = LayoutInflater.from(parent.context)
-                .inflate(R.layout.venue_search_item_view_holder, parent, false) as CardView
-            // set the view's size, margins, paddings and layout parameters
-            return VenueCardViewHolder(cardView)
-        }
-
-        // Replace the contents of a view (invoked by the layout manager)
-        override fun onBindViewHolder(holder: VenueCardViewHolder, position: Int) {
-            // - get element from your dataset at this position
-            // - replace the contents of the view with that element
-            holder.cardView.findViewById<TextView>(R.id.venue_name).text = items[position].name
-        }
-
-        // Return the size of your dataset (invoked by the layout manager)
-        override fun getItemCount() = items.size
     }
 }

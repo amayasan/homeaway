@@ -26,7 +26,7 @@ interface FoursquareApiService {
     }
 
     @GET("v2/venues/search")
-    fun searchVenues(
+    fun doVenueSearchV2(
         @Query("client_id") client_id: String = FoursquareApiConstants.CLIENT_ID,
         @Query("client_secret") client_secret: String = FoursquareApiConstants.CLIENT_SECRET,
         @Query("near") near: String = FoursquareApiConstants.NEAR,

@@ -9,13 +9,24 @@ object Model {
                      val categories : List<Category>)
     data class Location(val address : String,
                         val crossStreet : String,
-                        val lat : Float,
-                        val lng : Float,
+                        val lat : Double,
+                        val lng : Double,
                         val postalCode : String,
                         val cc : String,
                         val city : String,
                         val state : String,
-                        val country : String)
+                        val country : String) {
+
+        fun distanceFromDowntownSeattle() : String {
+            val downtownSeattleLat = 47.6062
+            val downtownSeattleLng = -122.3321
+
+            var results = FloatArray(1)
+            android.location.Location.distanceBetween(lat,lng, downtownSeattleLat, downtownSeattleLng, results)
+
+            return results[0].toBigDecimal().toString()
+        }
+    }
     data class Category(val id : String,
                         val name : String,
                         val pluralName : String,
@@ -23,4 +34,8 @@ object Model {
                         val icon : Icon)
     data class Icon(val prefix : String,
                     val suffix : String)
+
+
+
 }
+

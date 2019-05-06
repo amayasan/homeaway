@@ -8,6 +8,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,7 +35,7 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
     private var disposable: Disposable? = null
 
     private lateinit var viewModel: VenueSearchViewModel
-    private lateinit var recyclerViewAdapter : MyAdapter
+    private lateinit var recyclerViewAdapter : VenueCardAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,8 +46,12 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        // Initialize the ViewModel and observe changes
         viewModel = ViewModelProviders.of(this).get(VenueSearchViewModel::class.java)
-        // TODO: Use the ViewModel
+        viewModel.venues.observe(this, Observer {
+            recyclerViewAdapter.replaceItems(it ?: emptyList())
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,7 +66,7 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun initVenueSearchViews() {
-        // TODO: Initialize a new array with elements
+        // TODO: Populate array with Foursquare categories
         val categories = arrayOf(
             "coffee", "pizza", "whole foods"
         )
@@ -111,15 +116,9 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
 
         // Set up the RecyclerView with and Adapter
         venue_search_recycler_view.layoutManager = LinearLayoutManager(context)
-        // using a ViewModel
-        viewModel = VenueSearchViewModel()
 
-        recyclerViewAdapter = MyAdapter()
+        recyclerViewAdapter = VenueCardAdapter()
         venue_search_recycler_view.adapter = recyclerViewAdapter
-
-        viewModel.venues.observe(this, Observer {
-            recyclerViewAdapter.replaceItems(it ?: emptyList())
-        })
 
     }
 
@@ -136,15 +135,15 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
 
     fun showResult(result : Model.Result) {
         viewModel.venues.postValue(result.response.venues)
-        recyclerViewAdapter.replaceItems(result.response.venues)
+        //recyclerViewAdapter.replaceItems(result.response.venues)
     }
 
     fun showError(message : String?) {
         message?.length
     }
 
-    class MyAdapter() :
-        RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+    class VenueCardAdapter :
+        RecyclerView.Adapter<VenueCardAdapter.VenueCardViewHolder>() {
 
         var items: List<Model.Venue> = emptyList()
 
@@ -157,23 +156,23 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
         // Complex data items may need more than one view per item, and
         // you provide access to all the views for a data item in a view holder.
         // Each data item is just a string in this case that is shown in a TextView.
-        class MyViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView)
+        class VenueCardViewHolder(val cardView: CardView) : RecyclerView.ViewHolder(cardView)
 
         // Create new views (invoked by the layout manager)
         override fun onCreateViewHolder(parent: ViewGroup,
-                                        viewType: Int): MyAdapter.MyViewHolder {
+                                        viewType: Int): VenueCardAdapter.VenueCardViewHolder {
             // create a new view
-            val textView = LayoutInflater.from(parent.context)
-                .inflate(R.layout.venue_search_item_view_holder, parent, false) as TextView
+            val cardView = LayoutInflater.from(parent.context)
+                .inflate(R.layout.venue_search_item_view_holder, parent, false) as CardView
             // set the view's size, margins, paddings and layout parameters
-            return MyViewHolder(textView)
+            return VenueCardViewHolder(cardView)
         }
 
         // Replace the contents of a view (invoked by the layout manager)
-        override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        override fun onBindViewHolder(holder: VenueCardViewHolder, position: Int) {
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
-            holder.textView.text = items[position].name
+            holder.cardView.findViewById<TextView>(R.id.venue_name).text = items[position].name
         }
 
         // Return the size of your dataset (invoked by the layout manager)

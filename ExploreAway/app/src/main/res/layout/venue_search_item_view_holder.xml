@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-          android:id="@+id/venue_name"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content">
+<androidx.cardview.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/venue_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="200dp"
+        android:clickable="true"
+        card_view:cardUseCompatPadding="true"
+        android:layout_marginTop="8dp"
+        android:foreground="?android:attr/selectableItemBackground">
 
-</TextView>
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/standard_padding">
+
+        <TextView android:id="@+id/venue_name"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

@@ -17,7 +17,7 @@ abstract class RecyclerBaseAdapter : RecyclerView.Adapter<RecyclerBaseAdapter.Re
             ?.let {
                 val bindingSuccess = holder.binding.setVariable(BR.viewmodel, it)
                 if (!bindingSuccess) {
-                    throw IllegalStateException("Binding ${holder.binding} venueSearchViewModel variable name should be 'venueSearchViewModel'")
+                    throw IllegalStateException("Binding ${holder.binding} viewmodel variable name should be 'viewmodel'")
                 }
             }
     }

@@ -1,28 +1,27 @@
 package com.amayasan.exploreaway.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amayasan.exploreaway.R
+import com.amayasan.exploreaway.AppConstants
 import com.amayasan.exploreaway.model.Model
 import com.amayasan.exploreaway.service.FoursquareApiService
+import com.amayasan.exploreaway.ui.activity.DetailActivity
 import com.amayasan.exploreaway.ui.adapter.RecyclerBaseAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.venue_search_fragment.*
-import com.bumptech.glide.Glide
-import androidx.databinding.BindingAdapter
-
-
 
 
 class VenueSearchFragment : androidx.fragment.app.Fragment() {
@@ -31,14 +30,14 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
         fun newInstance() = VenueSearchFragment()
     }
 
-    private val foursquareApiService by lazy {
+    private val iFoursquareApiService by lazy {
         FoursquareApiService.create()
     }
 
-    private var disposable: Disposable? = null
+    private var mDisposable: Disposable? = null
 
-    private lateinit var venueSearchViewModel: VenueSearchViewModel
-    private lateinit var recyclerViewAdapter : VenueCardAdapter
+    private lateinit var mVenueSearchViewModel: VenueSearchViewModel
+    private lateinit var mRecyclerViewAdapter : VenueCardAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,10 +50,10 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         // Initialize the ViewModel and observe changes to the venues
-        venueSearchViewModel = ViewModelProviders.of(this).get(VenueSearchViewModel::class.java)
-        venueSearchViewModel.venues.observe(this, Observer {
+        mVenueSearchViewModel = ViewModelProviders.of(this).get(VenueSearchViewModel::class.java)
+        mVenueSearchViewModel.venues.observe(this, Observer {
             // Venues changed, update the data in the adapter
-            recyclerViewAdapter.setData(it ?: emptyList())
+            mRecyclerViewAdapter.setData(it ?: emptyList())
         })
     }
 
@@ -66,7 +65,7 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        disposable?.dispose()
+        mDisposable?.dispose()
     }
 
     private fun initVenueSearchViews() {
@@ -121,14 +120,14 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
         // Set up the RecyclerView with and Adapter
         venue_search_recycler_view.layoutManager = LinearLayoutManager(context)
 
-        recyclerViewAdapter = VenueCardAdapter()
-        venue_search_recycler_view.adapter = recyclerViewAdapter
+        mRecyclerViewAdapter = VenueCardAdapter()
+        venue_search_recycler_view.adapter = mRecyclerViewAdapter
 
     }
 
     private fun doVenueSearch(query: String) {
-        disposable =
-                foursquareApiService.doVenueSearchV2(query = query)
+        mDisposable =
+                iFoursquareApiService.doVenueSearchV2(query = query)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
@@ -139,7 +138,7 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
 
     fun showResult(result : Model.Result) {
         // Update the venues in ViewModel
-        venueSearchViewModel.venues.postValue(result.response.venues)
+        mVenueSearchViewModel.venues.postValue(result.response.venues)
     }
 
     fun showError(message : String?) {
@@ -147,18 +146,27 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
     }
 
     class VenueCardAdapter : RecyclerBaseAdapter() {
-        private var data: List<Model.Venue> = emptyList()
+        private var mData: List<Model.Venue> = emptyList()
 
-        override fun getLayoutIdForPosition(position: Int) = R.layout.venue_search_item_view_holder
+        override fun getLayoutIdForPosition(position: Int) = R.layout.venue_card_view_holder
 
-        override fun getViewModel(position: Int) = data[position]
+        override fun getViewModel(position: Int) = mData[position]
 
-        override fun getItemCount() = data.size
+        override fun getItemCount() = mData.size
 
         fun setData(newData: List<Model.Venue>) {
-            data = newData
+            mData = newData
             notifyDataSetChanged()
         }
 
+        override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
+            super.onBindViewHolder(holder, position)
+
+            holder.itemView.setOnClickListener {
+                val intent = Intent(holder.itemView.context, DetailActivity::class.java)
+                intent.putExtra(AppConstants.VENUE_OBJ_KEY, mData[position])
+                startActivity(holder.itemView.context, intent, Bundle())
+            }
+        }
     }
 }

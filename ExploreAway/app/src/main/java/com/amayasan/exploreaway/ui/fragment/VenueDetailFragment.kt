@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.amayasan.exploreaway.R
 import com.amayasan.exploreaway.AppConstants
 import com.amayasan.exploreaway.model.Model
+import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.venue_detail_fragment.*
 
 class VenueDetailFragment : Fragment() {
 
@@ -38,8 +40,26 @@ class VenueDetailFragment : Fragment() {
 
         if (arguments != null) {
             mVenueDetailViewModel.venue = arguments!!.getParcelable(AppConstants.VENUE_OBJ_KEY)
-
             Toast.makeText(context, mVenueDetailViewModel.venue.id, Toast.LENGTH_LONG).show()
+            initMapImageView()
         }
+
+    }
+
+    private fun initMapImageView() {
+        Glide
+            .with(this)
+            .load(getGoogleMapImageUrl())
+            .centerCrop()
+            //.placeholder(R.drawable.loading_spinner)
+            .into(venue_detail_map_iv)
+    }
+
+    private fun getGoogleMapImageUrl() : String {
+        val lat = mVenueDetailViewModel.venue.location.lat
+        val lng = mVenueDetailViewModel.venue.location.lng
+
+        var imageUrl = "https://maps.googleapis.com/maps/api/staticmap?center=Downtown,Seattle,WA&zoom=13&size=500x500&maptype=roadmap&markers=color:red%7Clabel:V%7C$lat,$lng&markers=color:green%7Clabel:D%7C${AppConstants.DOWNTOWN_SEATTLE_LAT},${AppConstants.DOWNTOWN_SEATTLE_LNG}&key=${AppConstants.GOOGLE_MAPS_API_KEY}"
+        return imageUrl
     }
 }

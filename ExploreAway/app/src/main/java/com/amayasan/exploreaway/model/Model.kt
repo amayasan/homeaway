@@ -16,15 +16,15 @@ object Model {
                      val categories : List<Category>) : Parcelable
 
     @Parcelize
-    data class Location(val address : String,
+    data class Location(val address : String?,
                         val crossStreet : String?,
                         val lat : Double,
                         val lng : Double,
-                        val postalCode : String,
-                        val cc : String,
-                        val city : String,
-                        val state : String,
-                        val country : String) : Parcelable {
+                        val postalCode : String?,
+                        val cc : String?,
+                        val city : String?,
+                        val state : String?,
+                        val country : String?) : Parcelable {
 
         fun distanceFromDowntownSeattle() : String {
             var results = FloatArray(1)

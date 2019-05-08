@@ -2,6 +2,7 @@ package com.amayasan.exploreaway.model
 
 import android.os.Parcelable
 import com.amayasan.exploreaway.AppConstants
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.parcel.Parcelize
 
 object Model {
@@ -26,11 +27,15 @@ object Model {
                         val state : String?,
                         val country : String?) : Parcelable {
 
-        fun distanceFromDowntownSeattle() : String {
+        fun getDistanceFromDowntownSeattle() : String {
             var results = FloatArray(1)
             android.location.Location.distanceBetween(lat,lng, AppConstants.DOWNTOWN_SEATTLE_LAT, AppConstants.DOWNTOWN_SEATTLE_LNG, results)
 
             return results[0].toBigDecimal().toString()
+        }
+
+        fun getLatLng() : LatLng {
+            return LatLng(lat, lng)
         }
     }
 

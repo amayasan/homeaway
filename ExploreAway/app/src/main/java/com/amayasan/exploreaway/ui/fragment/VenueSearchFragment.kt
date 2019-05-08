@@ -2,6 +2,7 @@ package com.amayasan.exploreaway.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import com.amayasan.exploreaway.AppConstants
 import com.amayasan.exploreaway.model.Model
 import com.amayasan.exploreaway.service.FoursquareApiService
 import com.amayasan.exploreaway.ui.activity.DetailActivity
+import com.amayasan.exploreaway.ui.activity.MapsActivity
 import com.amayasan.exploreaway.ui.adapter.RecyclerBaseAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -123,6 +125,11 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
         mRecyclerViewAdapter = VenueCardAdapter()
         venue_search_recycler_view.adapter = mRecyclerViewAdapter
 
+        venue_search_fab.setOnClickListener {
+            val intent = Intent(context, MapsActivity::class.java)
+            intent.putParcelableArrayListExtra(AppConstants.VENUES_LIST_KEY, mVenueSearchViewModel.venues.value as java.util.ArrayList<out Parcelable>)
+            startActivity(intent)
+        }
     }
 
     private fun doVenueSearch(query: String) {

@@ -1,34 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.fragment.VenueSearchFragment"
-        android:id="@+id/venue_search_root_layout"
-        android:orientation="vertical"
-        android:padding="@dimen/standard_padding">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/venue_search_root_layout"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
-    <AutoCompleteTextView
-            android:id="@+id/venue_search_auto_complete_text_view"
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/search_text_hint"
-            android:completionThreshold="1"
-            android:focusedByDefault="true"
-            android:focusable="true"
-            android:focusableInTouchMode="true"/>
+            tools:context=".ui.fragment.VenueSearchFragment"
+            android:orientation="vertical"
+            android:padding="@dimen/standard_padding">
 
-    <Button
-            android:id="@+id/venue_search_button"
-            android:layout_width="match_parent"
+        <AutoCompleteTextView
+                android:id="@+id/venue_search_auto_complete_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/search_text_hint"
+                android:completionThreshold="1"
+                android:focusedByDefault="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
+
+        <Button
+                android:id="@+id/venue_search_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/search"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/venue_search_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/venue_search_fab"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/search"/>
+            android:layout_gravity="end|bottom"
+            android:layout_margin="16dp"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/venue_search_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical"/>
-
-</LinearLayout>
+</FrameLayout>

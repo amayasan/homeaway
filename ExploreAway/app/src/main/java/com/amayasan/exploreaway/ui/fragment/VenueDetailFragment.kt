@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.venue_detail_fragment.*
 
 class VenueDetailFragment : Fragment() {
 
-    lateinit var mBinding : VenueDetailFragmentBinding
+    private lateinit var mBinding : VenueDetailFragmentBinding
 
     companion object {
         fun newInstance(venue : Model.Venue): VenueDetailFragment {
@@ -65,7 +65,6 @@ class VenueDetailFragment : Fragment() {
         val lat = mVenueDetailViewModel.venue.location.lat
         val lng = mVenueDetailViewModel.venue.location.lng
 
-        var imageUrl = "https://maps.googleapis.com/maps/api/staticmap?center=Downtown,Seattle,WA&zoom=13&size=500x500&maptype=roadmap&markers=color:red%7Clabel:V%7C$lat,$lng&markers=color:green%7Clabel:D%7C${AppConstants.DOWNTOWN_SEATTLE_LAT},${AppConstants.DOWNTOWN_SEATTLE_LNG}&key=${AppConstants.GOOGLE_MAPS_API_KEY}"
-        return imageUrl
+        return "https://maps.googleapis.com/maps/api/staticmap?center=Downtown,Seattle,WA&zoom=13&size=500x500&maptype=roadmap&markers=color:red%7Clabel:V%7C$lat,$lng&markers=color:green%7Clabel:D%7C${AppConstants.DOWNTOWN_SEATTLE_LAT},${AppConstants.DOWNTOWN_SEATTLE_LNG}&key=${AppConstants.GOOGLE_MAPS_API_KEY}"
     }
 }

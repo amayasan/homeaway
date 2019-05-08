@@ -4,16 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.amayasan.exploreaway.R
 import com.amayasan.exploreaway.AppConstants
+import com.amayasan.exploreaway.R
+import com.amayasan.exploreaway.databinding.VenueDetailFragmentBinding
 import com.amayasan.exploreaway.model.Model
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.venue_detail_fragment.*
 
 class VenueDetailFragment : Fragment() {
+
+    lateinit var mBinding : VenueDetailFragmentBinding
 
     companion object {
         fun newInstance(venue : Model.Venue): VenueDetailFragment {
@@ -31,7 +34,9 @@ class VenueDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.venue_detail_fragment, container, false)
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.venue_detail_fragment, container, false)
+
+        return mBinding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -40,7 +45,8 @@ class VenueDetailFragment : Fragment() {
 
         if (arguments != null) {
             mVenueDetailViewModel.venue = arguments!!.getParcelable(AppConstants.VENUE_OBJ_KEY)
-            Toast.makeText(context, mVenueDetailViewModel.venue.id, Toast.LENGTH_LONG).show()
+            mBinding.venue = mVenueDetailViewModel.venue
+
             initMapImageView()
         }
 

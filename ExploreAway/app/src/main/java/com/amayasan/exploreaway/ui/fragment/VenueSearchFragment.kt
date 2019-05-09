@@ -1,13 +1,10 @@
 package com.amayasan.exploreaway.ui.fragment
 
 import android.content.Intent
-import android.icu.lang.UCharacter.GraphemeClusterBreak.L
-import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -16,8 +13,8 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.amayasan.exploreaway.R
 import com.amayasan.exploreaway.AppConstants
+import com.amayasan.exploreaway.R
 import com.amayasan.exploreaway.model.Model
 import com.amayasan.exploreaway.service.FoursquareApiService
 import com.amayasan.exploreaway.ui.activity.DetailActivity

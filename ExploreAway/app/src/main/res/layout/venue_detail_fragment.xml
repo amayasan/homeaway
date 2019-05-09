@@ -29,32 +29,38 @@
                <TextView
                        android:layout_width="wrap_content"
                        android:layout_height="match_parent"
-                       android:text="@{venue.name}"/>
+                       android:text="@{venue.name}"
+                       style="@style/TextAppearance.AppCompat.Headline"/>
 
                <TextView
                        android:layout_width="wrap_content"
                        android:layout_height="match_parent"
-                       android:text="@{venue.location.address}"/>
+                       android:text="@{venue.location.address}"
+                       style="@style/TextAppearance.AppCompat.Subhead"/>
 
                <TextView
                        android:layout_width="wrap_content"
                        android:layout_height="match_parent"
-                       android:text="@{venue.location.city}"/>
+                       android:text="@{venue.location.city}"
+                       style="@style/TextAppearance.AppCompat.Subhead"/>
 
                <TextView
                        android:layout_width="wrap_content"
                        android:layout_height="match_parent"
-                       android:text="@{venue.location.state}"/>
+                       android:text="@{venue.location.state}"
+                       style="@style/TextAppearance.AppCompat.Subhead"/>
 
                <TextView
                        android:layout_width="wrap_content"
                        android:layout_height="match_parent"
-                       android:text="@{venue.location.postalCode}"/>
+                       android:text="@{venue.location.postalCode}"
+                       style="@style/TextAppearance.AppCompat.Subhead"/>
 
                <TextView
                        android:layout_width="wrap_content"
                        android:layout_height="match_parent"
-                       android:text="@{venue.categories.get(0).name}"/>
+                       android:text="@{venue.categories.get(0).name}"
+                       style="@style/TextAppearance.AppCompat.Subhead"/>
 
 
            </LinearLayout>

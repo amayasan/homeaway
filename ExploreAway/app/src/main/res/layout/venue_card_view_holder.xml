@@ -24,25 +24,29 @@
             <TextView android:id="@+id/venue_name"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-                      android:text="@{viewmodel.name}"/>
+                      android:text="@{viewmodel.name}"
+                      style="@style/TextAppearance.AppCompat.Headline"/>
 
             <TextView android:id="@+id/venue_address"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:text="@{viewmodel.location.address}"
-                      android:layout_below="@id/venue_name" />
+                      android:layout_below="@id/venue_name"
+                      style="@style/TextAppearance.AppCompat.Subhead"/>
 
             <TextView android:id="@+id/venue_category"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:text="@{viewmodel.categories.get(0).name}"
-                      android:layout_below="@id/venue_address" />
+                      android:layout_below="@id/venue_address"
+                      style="@style/TextAppearance.AppCompat.Subhead"/>
 
             <TextView android:id="@+id/venue_distance"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:text="@{viewmodel.location.getDistanceFromDowntownSeattle()}"
-                      android:layout_below="@id/venue_category" />
+                      android:layout_below="@id/venue_category"
+                      style="@style/TextAppearance.AppCompat.Subhead"/>
 
             <ImageView
                     android:id="@+id/venue_icon"

@@ -1,10 +1,13 @@
 package com.amayasan.exploreaway.ui.fragment
 
 import android.content.Intent
+import android.icu.lang.UCharacter.GraphemeClusterBreak.L
+import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -56,6 +59,8 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
         mVenueSearchViewModel.venues.observe(this, Observer {
             // Venues changed, update the data in the adapter
             mRecyclerViewAdapter.setData(it ?: emptyList())
+            // Hide or show the FAB appropriately
+            if (it.isNotEmpty()) venue_search_fab.show() else venue_search_fab.hide()
         })
     }
 

@@ -1,19 +1,20 @@
 package com.amayasan.exploreaway.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.amayasan.exploreaway.AppConstants
 import com.amayasan.exploreaway.R
 import com.amayasan.exploreaway.model.Model
-
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private lateinit var mMap: GoogleMap
 
@@ -48,11 +49,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(seattle, 13.0f))
 
         addVenueMarkers()
+
+        mMap.setOnInfoWindowClickListener(this)
     }
 
     private fun addVenueMarkers() {
         for (venue in venues) {
-            mMap.addMarker(MarkerOptions().position(venue.location.getLatLng()).title(venue.name))
+            mMap.addMarker(MarkerOptions().position(venue.location.getLatLng()).title(venue.name).snippet(venue.location.address)).tag = venue
         }
+    }
+
+    override fun onInfoWindowClick(marker: Marker?) {
+        val intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra(AppConstants.VENUE_OBJ_KEY, marker?.tag as? Model.Venue)
+        startActivity(intent)
     }
 }

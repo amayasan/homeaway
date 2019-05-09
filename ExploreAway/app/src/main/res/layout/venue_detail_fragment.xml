@@ -23,7 +23,7 @@
            <LinearLayout
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
-                   android:padding="@dimen/standard_padding"
+                   android:padding="@dimen/padding_standard"
                    android:orientation="vertical">
 
                <TextView
@@ -62,6 +62,16 @@
                        android:text="@{venue.categories.get(0).name}"
                        style="@style/TextAppearance.AppCompat.Subhead"/>
 
+               <androidx.appcompat.widget.AppCompatToggleButton
+                       android:id="@+id/venue_favorite_toggle_btn"
+                       android:layout_width="@dimen/icon_size_default"
+                       android:layout_height="@dimen/icon_size_default"
+                       android:background="@drawable/favorite_toggle"
+                       android:textOn=""
+                       android:textOff=""
+                       android:focusable="false"
+                       android:focusableInTouchMode="false"
+                       android:layout_gravity="end"/>
 
            </LinearLayout>
 

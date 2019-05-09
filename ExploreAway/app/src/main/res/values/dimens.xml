@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="standard_padding">16dp</dimen>
+    <dimen name="padding_standard">16dp</dimen>
+    <dimen name="padding_small">8dp</dimen>
 
+    <dimen name="min_card_height">200dp</dimen>
+
+    <dimen name="icon_size_default">32dp</dimen>
 </resources>

@@ -10,16 +10,16 @@
             android:id="@+id/venue_card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="200dp"
+            android:minHeight="@dimen/min_card_height"
             android:clickable="true"
             card_view:cardUseCompatPadding="true"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/padding_small"
             android:foreground="?android:attr/selectableItemBackground">
 
         <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/standard_padding">
+                android:padding="@dimen/padding_standard">
 
             <TextView android:id="@+id/venue_name"
                       android:layout_width="match_parent"
@@ -57,6 +57,18 @@
             <!--app:imageUrl="https://ss3.4sqi.net/img/categories_v2/food/coffeeshop_.png"-->
 
         </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatToggleButton
+                android:id="@+id/venue_favorite_toggle_btn"
+                android:layout_width="@dimen/icon_size_default"
+                android:layout_height="@dimen/icon_size_default"
+                android:background="@drawable/favorite_toggle"
+                android:textOn=""
+                android:textOff=""
+                android:layout_margin="@dimen/padding_standard"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:layout_gravity="bottom|right"/>
 
     </androidx.cardview.widget.CardView>
 

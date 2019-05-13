@@ -12,21 +12,30 @@
             android:orientation="vertical"
             android:padding="@dimen/padding_standard">
 
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/seattle_skyline"/>
+
         <AutoCompleteTextView
-                android:id="@+id/venue_search_auto_complete_text_view"
+                android:id="@+id/venue_search_actv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/search_text_hint"
-                android:completionThreshold="1"
-                android:focusedByDefault="true"
                 android:focusable="true"
-                android:focusableInTouchMode="true"/>
+                android:focusableInTouchMode="true"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+                android:layout_marginBottom="@dimen/padding_standard"/>
 
-        <Button
-                android:id="@+id/venue_search_button"
+        <TextView
+                android:id="@+id/venue_search_empty_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/search"/>
+                android:text="@string/no_search_results"
+                android:gravity="center"
+                android:textStyle="italic"
+                android:textSize="18sp"/>
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/venue_search_recycler_view"

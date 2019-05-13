@@ -25,6 +25,9 @@ android {
     androidExtensions {
         experimental = true
     }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
 }
 
 dependencies {
@@ -50,4 +53,9 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
     implementation 'com.google.android.material:material:1.0.0'
+
+    implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+    implementation 'com.jakewharton.rxbinding:rxbinding-support-v4:0.4.0'
+    implementation 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.4.0'
+
 }

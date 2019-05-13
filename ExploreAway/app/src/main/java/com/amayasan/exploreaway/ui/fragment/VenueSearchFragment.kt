@@ -6,9 +6,6 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -20,11 +17,13 @@ import com.amayasan.exploreaway.service.FoursquareApiService
 import com.amayasan.exploreaway.ui.activity.DetailActivity
 import com.amayasan.exploreaway.ui.activity.MapsActivity
 import com.amayasan.exploreaway.ui.adapter.RecyclerBaseAdapter
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException
+import com.jakewharton.rxbinding.widget.RxTextView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.venue_search_fragment.*
-
+import java.util.concurrent.TimeUnit
 
 class VenueSearchFragment : androidx.fragment.app.Fragment() {
 
@@ -56,8 +55,16 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
         mVenueSearchViewModel.venues.observe(this, Observer {
             // Venues changed, update the data in the adapter
             mRecyclerViewAdapter.setData(it ?: emptyList())
-            // Hide or show the FAB appropriately
-            if (it.isNotEmpty()) venue_search_fab.show() else venue_search_fab.hide()
+            // Hide or show views appropriately
+            if (it.isNotEmpty()) {
+                venue_search_recycler_view.visibility = View.VISIBLE
+                venue_search_empty_view.visibility = View.GONE
+                venue_search_fab.show()
+            } else {
+                venue_search_recycler_view.visibility = View.GONE
+                venue_search_empty_view.visibility = View.VISIBLE
+                venue_search_fab.hide()
+            }
         })
     }
 
@@ -73,53 +80,16 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun initVenueSearchViews() {
-        // TODO: Populate array with Foursquare categories
-        val categories = arrayOf(
-            "coffee", "pizza", "whole foods"
-        )
 
-        // Initialize a new array adapter object
-        val adapter = ArrayAdapter<String>(
-            context, // Context
-            android.R.layout.simple_dropdown_item_1line, // Layout
-            categories // Array
-        )
-
-        // Set the AutoCompleteTextView adapter
-        venue_search_auto_complete_text_view.setAdapter(adapter)
-
-        // Request Focus for the search field
-        venue_search_auto_complete_text_view.requestFocus()
-
-        // Set an item click listener for auto complete text view
-        venue_search_auto_complete_text_view.onItemClickListener =
-                AdapterView.OnItemClickListener { parent, view, position, id ->
-                    val selectedItem = parent.getItemAtPosition(position).toString()
-                    // Display the clicked item using toast
-                    Toast.makeText(context, "Selected : $selectedItem", Toast.LENGTH_SHORT).show()
-                }
-
-        // Set a dismiss listener for auto complete text view
-        venue_search_auto_complete_text_view.setOnDismissListener {
-            Toast.makeText(context, "Suggestion closed.", Toast.LENGTH_SHORT).show()
-        }
-
-        // Set a click listener for root layout
-        venue_search_root_layout.setOnClickListener {
-            val text = venue_search_auto_complete_text_view.text
-            Toast.makeText(context, "Inputted : $text", Toast.LENGTH_SHORT).show()
-        }
-
-        // Set a focus change listener for auto complete text view
-        venue_search_auto_complete_text_view.onFocusChangeListener = View.OnFocusChangeListener { view, b ->
-            if (b) {
-                // Display the suggestion dropdown on focus
-                venue_search_auto_complete_text_view.showDropDown()
+        // Debounce the text in the Search field and perform a typeahead venue search against the Foursquare API accordingly
+        RxTextView.textChanges(venue_search_actv).filter{ charSequence -> charSequence.isNotEmpty() }
+            .debounce(500, TimeUnit.MILLISECONDS).map{ charSequence -> charSequence.toString() }
+            .subscribe{ text ->
+                doVenueSearch(text)
             }
-        }
 
-        // Set the OnClickListener for the Search button
-        venue_search_button.setOnClickListener { doVenueSearch(venue_search_auto_complete_text_view.text.toString()) }
+        venue_search_actv.requestFocus()
+        venue_search_empty_view.visibility = View.GONE
 
         // Set up the RecyclerView with and Adapter
         venue_search_recycler_view.layoutManager = LinearLayoutManager(context)
@@ -127,6 +97,7 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
         mRecyclerViewAdapter = VenueCardAdapter()
         venue_search_recycler_view.adapter = mRecyclerViewAdapter
 
+        // Set up the click listener for the FAB
         venue_search_fab.setOnClickListener {
             val intent = Intent(context, MapsActivity::class.java)
             intent.putParcelableArrayListExtra(AppConstants.VENUES_LIST_KEY, mVenueSearchViewModel.venues.value as java.util.ArrayList<out Parcelable>)

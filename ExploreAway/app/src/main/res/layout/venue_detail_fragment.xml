@@ -4,6 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.text.TextUtils"/>
         <variable name="venue" type="com.amayasan.exploreaway.model.Model.Venue"/>
     </data>
 
@@ -20,60 +21,66 @@
                 android:clipToPadding="false"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-           <LinearLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:padding="@dimen/padding_standard"
-                   android:orientation="vertical">
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_standard"
+                    android:orientation="vertical">
 
-               <TextView
-                       android:layout_width="wrap_content"
-                       android:layout_height="match_parent"
-                       android:text="@{venue.name}"
-                       style="@style/TextAppearance.AppCompat.Headline"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@{venue.name}"
+                        style="@style/TextAppearance.AppCompat.Headline"
+                        android:textStyle="bold"/>
 
-               <TextView
-                       android:layout_width="wrap_content"
-                       android:layout_height="match_parent"
-                       android:text="@{venue.location.address}"
-                       style="@style/TextAppearance.AppCompat.Subhead"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@{venue.location.address}"
+                        style="@style/TextAppearance.AppCompat.Subhead"
+                        app:isVisible="@{!TextUtils.isEmpty(venue.location.address)}"/>
 
-               <TextView
-                       android:layout_width="wrap_content"
-                       android:layout_height="match_parent"
-                       android:text="@{venue.location.city}"
-                       style="@style/TextAppearance.AppCompat.Subhead"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@{venue.location.city}"
+                        style="@style/TextAppearance.AppCompat.Subhead"
+                        app:isVisible="@{!TextUtils.isEmpty(venue.location.city)}"/>
 
-               <TextView
-                       android:layout_width="wrap_content"
-                       android:layout_height="match_parent"
-                       android:text="@{venue.location.state}"
-                       style="@style/TextAppearance.AppCompat.Subhead"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@{venue.location.state}"
+                        style="@style/TextAppearance.AppCompat.Subhead"
+                        app:isVisible="@{!TextUtils.isEmpty(venue.location.state)}"/>
 
-               <TextView
-                       android:layout_width="wrap_content"
-                       android:layout_height="match_parent"
-                       android:text="@{venue.location.postalCode}"
-                       style="@style/TextAppearance.AppCompat.Subhead"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@{venue.location.postalCode}"
+                        style="@style/TextAppearance.AppCompat.Subhead"
+                        app:isVisible="@{!TextUtils.isEmpty(venue.location.postalCode)}"/>
 
-               <TextView
-                       android:layout_width="wrap_content"
-                       android:layout_height="match_parent"
-                       android:text="@{venue.categories.get(0).name}"
-                       style="@style/TextAppearance.AppCompat.Subhead"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@{venue.categories.get(0).name}"
+                        style="@style/TextAppearance.AppCompat.Subhead"
+                        app:isVisible="@{!TextUtils.isEmpty(venue.categories.get(0).name)}"/>
 
-               <androidx.appcompat.widget.AppCompatToggleButton
-                       android:id="@+id/venue_favorite_toggle_btn"
-                       android:layout_width="@dimen/icon_size_default"
-                       android:layout_height="@dimen/icon_size_default"
-                       android:background="@drawable/favorite_toggle"
-                       android:textOn=""
-                       android:textOff=""
-                       android:focusable="false"
-                       android:focusableInTouchMode="false"
-                       android:layout_gravity="end"/>
+                <androidx.appcompat.widget.AppCompatToggleButton
+                        android:id="@+id/venue_favorite_toggle_btn"
+                        android:layout_width="@dimen/icon_size_default"
+                        android:layout_height="@dimen/icon_size_default"
+                        android:background="@drawable/favorite_toggle"
+                        android:textOn=""
+                        android:textOff=""
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:layout_gravity="end"/>
 
-           </LinearLayout>
+            </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
 
@@ -97,7 +104,7 @@
                 <ImageView
                         android:id="@+id/venue_detail_map_iv"
                         android:layout_width="match_parent"
-                        android:layout_height="400dp"
+                        android:layout_height="350dp"
                         android:scaleType="centerCrop"
                         app:layout_collapseMode="parallax"
                         app:layout_collapseParallaxMultiplier="0.7"/>

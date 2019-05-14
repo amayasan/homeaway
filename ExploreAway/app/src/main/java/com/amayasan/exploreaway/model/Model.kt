@@ -27,11 +27,13 @@ object Model {
                         val state : String?,
                         val country : String?) : Parcelable {
 
-        fun getDistanceFromDowntownSeattle() : String {
+        fun getDistanceFromDowntownSeattleInMiles() : String {
             var results = FloatArray(1)
             android.location.Location.distanceBetween(lat,lng, AppConstants.DOWNTOWN_SEATTLE_LAT, AppConstants.DOWNTOWN_SEATTLE_LNG, results)
 
-            return results[0].toBigDecimal().toString()
+            val distanceInMiles = results[0]/1609.34
+
+            return "%.2f".format(distanceInMiles) + " miles from Downtown"
         }
 
         fun getLatLng() : LatLng {

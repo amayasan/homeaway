@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/venue_search_root_layout"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".ui.fragment.VenueSearchFragment"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_standard">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/seattle_skyline"/>
+
+        <AutoCompleteTextView
+                android:id="@+id/venue_search_actv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/search_text_hint"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+                android:layout_marginBottom="@dimen/padding_standard"/>
+
+        <TextView
+                android:id="@+id/venue_search_empty_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_search_results"
+                android:gravity="center"
+                android:textStyle="italic"
+                android:textSize="18sp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/venue_search_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/venue_search_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_explore"
+            android:visibility="gone"/>
+
+</FrameLayout>

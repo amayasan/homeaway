@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ExploreAway</string>
+    <string name="search_text_hint">Search for a venue</string>
+    <string name="search">Search</string>
+    <string name="no_search_results">No Search Results</string>
+    <string name="welcome_to_seattle">Welcome to Seattle</string>
+</resources>

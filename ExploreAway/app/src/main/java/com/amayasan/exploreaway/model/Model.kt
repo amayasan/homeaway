@@ -1,6 +1,8 @@
 package com.amayasan.exploreaway.model
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.amayasan.exploreaway.AppConstants
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.parcel.Parcelize
@@ -15,6 +17,9 @@ object Model {
                      val name : String,
                      val location : Location,
                      val categories : List<Category>) : Parcelable
+
+    @Entity
+    data class FavVenue(@PrimaryKey val id: String)
 
     @Parcelize
     data class Location(val address : String?,

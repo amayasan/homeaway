@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.amayasan.exploreaway.AppConstants
 import com.amayasan.exploreaway.R
@@ -13,6 +14,7 @@ import com.amayasan.exploreaway.databinding.VenueDetailFragmentBinding
 import com.amayasan.exploreaway.model.Model
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.venue_detail_fragment.*
+import kotlinx.android.synthetic.main.venue_search_fragment.*
 
 class VenueDetailFragment : Fragment() {
 
@@ -48,6 +50,7 @@ class VenueDetailFragment : Fragment() {
             mBinding.venue = mVenueDetailViewModel.venue
 
             initMapImageView()
+            initFavBtn()
         }
 
     }
@@ -66,5 +69,21 @@ class VenueDetailFragment : Fragment() {
         val lng = mVenueDetailViewModel.venue.location.lng
 
         return "https://maps.googleapis.com/maps/api/staticmap?center=Downtown,Seattle,WA&zoom=13&size=500x500&maptype=roadmap&markers=color:red%7Clabel:V%7C$lat,$lng&markers=color:green%7Clabel:D%7C${AppConstants.DOWNTOWN_SEATTLE_LAT},${AppConstants.DOWNTOWN_SEATTLE_LNG}&key=${AppConstants.GOOGLE_MAPS_API_KEY}"
+    }
+
+    private fun initFavBtn() {
+        venue_favorite_toggle_btn.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                mVenueDetailViewModel.insert()
+            } else {
+                mVenueDetailViewModel.delete()
+            }
+        }
+
+        mVenueDetailViewModel.isFavorite.observe(this, Observer {
+            venue_favorite_toggle_btn.isChecked = it
+        })
+
+        mVenueDetailViewModel.findById()
     }
 }

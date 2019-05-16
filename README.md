@@ -6,7 +6,10 @@ This particular version of ExploreAway is based in Seattle, WA and gives you the
 
 ExploreAway is an Android application built exclusively in Kotlin and leverages Android Jetpack to produce a quality user experience.
 
-The following third party Android libraries are utilized:
+The following Android architecture components and libraries are utilized:
+- ViewModel
+- LiveData
+- Room
 - Retrofit2
-- RxAndroid
+- RxAndroid, RxJava, RxBinding
 - Glide

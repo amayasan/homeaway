@@ -1,4 +1,4 @@
-# homeaway
+# ExploreAway
 
 Hello! Welcome to ExploreAway, an application which gives you the best venue recommendations based on your search criteria.
 

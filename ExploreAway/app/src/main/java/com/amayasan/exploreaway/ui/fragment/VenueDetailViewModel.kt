@@ -22,7 +22,7 @@ class VenueDetailViewModel(application: Application) : AndroidViewModel(applicat
         repository = VenueRepository(venueDao)
     }
 
-    fun findById() = viewModelScope.launch(Dispatchers.IO) {
+    fun getById() = viewModelScope.launch(Dispatchers.IO) {
         isFavorite.postValue(repository.getById(venue.id) != null)
     }
 

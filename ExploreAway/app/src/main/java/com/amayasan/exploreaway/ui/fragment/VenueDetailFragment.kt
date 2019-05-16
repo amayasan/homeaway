@@ -14,7 +14,6 @@ import com.amayasan.exploreaway.databinding.VenueDetailFragmentBinding
 import com.amayasan.exploreaway.model.Model
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.venue_detail_fragment.*
-import kotlinx.android.synthetic.main.venue_search_fragment.*
 
 class VenueDetailFragment : Fragment() {
 
@@ -84,6 +83,6 @@ class VenueDetailFragment : Fragment() {
             venue_favorite_toggle_btn.isChecked = it
         })
 
-        mVenueDetailViewModel.findById()
+        mVenueDetailViewModel.getById()
     }
 }

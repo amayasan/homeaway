@@ -55,6 +55,7 @@ class VenueDetailFragment : Fragment() {
     }
 
     private fun initMapImageView() {
+        // Insert the static Google Map image into the header
         Glide
             .with(this)
             .load(getGoogleMapImageUrl())
@@ -67,10 +68,11 @@ class VenueDetailFragment : Fragment() {
         val lat = mVenueDetailViewModel.venue.location.lat
         val lng = mVenueDetailViewModel.venue.location.lng
 
-        return "https://maps.googleapis.com/maps/api/staticmap?center=Downtown,Seattle,WA&zoom=13&size=500x500&maptype=roadmap&markers=color:red%7Clabel:V%7C$lat,$lng&markers=color:green%7Clabel:D%7C${AppConstants.DOWNTOWN_SEATTLE_LAT},${AppConstants.DOWNTOWN_SEATTLE_LNG}&key=${AppConstants.GOOGLE_MAPS_API_KEY}"
+        return "https://maps.googleapis.com/maps/api/staticmap?center=Downtown,Seattle,WA&zoom=13&size=500x500&maptype=roadmap&markers=color:red%7Clabel:%7C$lat,$lng&markers=color:green%7Clabel:%7C${AppConstants.DOWNTOWN_SEATTLE_LAT},${AppConstants.DOWNTOWN_SEATTLE_LNG}&key=${AppConstants.GOOGLE_MAPS_API_KEY}"
     }
 
     private fun initFavBtn() {
+        // Handle favorite/unfavorite
         venue_favorite_toggle_btn.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 mVenueDetailViewModel.insert()
@@ -79,10 +81,10 @@ class VenueDetailFragment : Fragment() {
             }
         }
 
+        // Set the favorite toggle button state
         mVenueDetailViewModel.isFavorite.observe(this, Observer {
             venue_favorite_toggle_btn.isChecked = it
         })
-
         mVenueDetailViewModel.getById()
     }
 }

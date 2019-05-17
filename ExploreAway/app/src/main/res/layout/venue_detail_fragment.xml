@@ -44,23 +44,9 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="@{venue.location.city}"
+                        android:text="@{venue.location.getFormattedCityStateZip()}"
                         style="@style/TextAppearance.AppCompat.Subhead"
-                        app:isVisible="@{!TextUtils.isEmpty(venue.location.city)}"/>
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@{venue.location.state}"
-                        style="@style/TextAppearance.AppCompat.Subhead"
-                        app:isVisible="@{!TextUtils.isEmpty(venue.location.state)}"/>
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@{venue.location.postalCode}"
-                        style="@style/TextAppearance.AppCompat.Subhead"
-                        app:isVisible="@{!TextUtils.isEmpty(venue.location.postalCode)}"/>
+                        app:isVisible="@{!TextUtils.isEmpty(venue.location.getFormattedCityStateZip())}"/>
 
                 <TextView
                         android:layout_width="wrap_content"
@@ -68,6 +54,14 @@
                         android:text="@{venue.categories.get(0).name}"
                         style="@style/TextAppearance.AppCompat.Subhead"
                         app:isVisible="@{!TextUtils.isEmpty(venue.categories.get(0).name)}"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@{venue.url}"
+                        android:autoLink="web"
+                        style="@style/TextAppearance.AppCompat.Subhead"
+                        app:isVisible="@{!TextUtils.isEmpty(venue.url)}"/>
 
                 <androidx.appcompat.widget.AppCompatToggleButton
                         android:id="@+id/venue_favorite_toggle_btn"

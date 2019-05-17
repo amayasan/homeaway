@@ -58,7 +58,7 @@ dependencies {
     // RxBinding
     implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     implementation 'com.jakewharton.rxbinding:rxbinding-support-v4:0.4.0'
-    implementation 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.4.0'\
+    implementation 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.4.0'
 
     // Room components
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"

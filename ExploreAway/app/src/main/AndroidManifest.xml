@@ -19,7 +19,7 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.ExploreActivity">
+        <activity android:name=".ui.activity.SearchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -44,7 +44,7 @@
                 android:name=".ui.activity.MapsActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.amayasan.exploreaway.ui.activity.ExploreActivity"/>
+                    android:value="com.amayasan.exploreaway.ui.activity.SearchActivity"/>
         </activity>
     </application>
 

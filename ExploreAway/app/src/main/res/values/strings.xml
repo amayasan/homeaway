@@ -4,4 +4,6 @@
     <string name="search">Search</string>
     <string name="no_search_results">No Search Results</string>
     <string name="welcome_to_seattle">Welcome to Seattle</string>
+    <string name="error">Error</string>
+    <string name="ok">OK</string>
 </resources>

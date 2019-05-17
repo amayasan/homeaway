@@ -1,12 +1,16 @@
 package com.amayasan.exploreaway.ui.fragment
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -60,6 +64,7 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
         mVenueSearchViewModel.venues.observe(this, Observer {
             // Venues changed, update the data in the adapter
             mRecyclerViewAdapter.setData(it ?: emptyList())
+            venue_search_progress_bar.hide()
             // Hide or show views appropriately
             if (it.isNotEmpty()) {
                 venue_search_recycler_view.visibility = View.VISIBLE
@@ -99,8 +104,10 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
                 doVenueSearch(text)
             }
 
+        // Init initial view states
         venue_search_actv.requestFocus()
         venue_search_empty_view.visibility = View.GONE
+        venue_search_progress_bar.hide()
 
         // Set up the RecyclerView with and Adapter
         venue_search_recycler_view.layoutManager = LinearLayoutManager(context)
@@ -120,6 +127,7 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun doVenueSearch(query: String) {
+        venue_search_progress_bar.show()
         mDisposable =
             iFoursquareApiService.doVenueSearchV2(query = query)
                 .subscribeOn(Schedulers.io())
@@ -136,7 +144,14 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
     }
 
     fun showError(message: String?) {
-        // TODO: Show an error when API call fails
+        venue_search_progress_bar.hide()
+        AlertDialog.Builder(activity)
+            .setTitle(R.string.error)
+            .setMessage(message)
+            .setPositiveButton(resources.getString(R.string.ok), DialogInterface.OnClickListener { dialog, id ->
+                dialog.dismiss()
+            })
+            .show()
     }
 
     class VenueCardAdapter(context: Context?) : RecyclerBaseAdapter() {
@@ -174,7 +189,7 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
-                    onSuccess = { venue : Model.FavVenue ->
+                    onSuccess = { venue: Model.FavVenue ->
                         holder.itemView.venue_favorite_toggle_btn.isChecked = true
                     },
                     onError = { error ->
@@ -185,11 +200,11 @@ class VenueSearchFragment : androidx.fragment.app.Fragment() {
             // Handle favorite/unfavorite clicks
             holder.itemView.venue_favorite_toggle_btn.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (isChecked) {
-                    Single.fromCallable { repository.insert(Model.FavVenue(mData[position].id))}
+                    Single.fromCallable { repository.insert(Model.FavVenue(mData[position].id)) }
                         .subscribeOn(Schedulers.io())
                         .subscribeBy(onError = { error -> })
                 } else {
-                    Single.fromCallable { repository.delete(Model.FavVenue(mData[position].id))}
+                    Single.fromCallable { repository.delete(Model.FavVenue(mData[position].id)) }
                         .subscribeOn(Schedulers.io())
                         .subscribeBy(onError = { error -> })
                 }

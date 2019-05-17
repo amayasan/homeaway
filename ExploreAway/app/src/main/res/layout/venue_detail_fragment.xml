@@ -5,6 +5,7 @@
 
     <data>
         <import type="android.text.TextUtils"/>
+        <import type="com.google.android.gms.common.util.CollectionUtils"/>
         <variable name="venue" type="com.amayasan.exploreaway.model.Model.Venue"/>
     </data>
 
@@ -51,9 +52,9 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="@{venue.categories.get(0).name}"
-                        style="@style/TextAppearance.AppCompat.Subhead"
-                        app:isVisible="@{!TextUtils.isEmpty(venue.categories.get(0).name)}"/>
+                        android:text="@{CollectionUtils.isEmpty(venue.categories) ? @string/empty : venue.categories.get(0).name}"
+                        app:isVisible="@{!CollectionUtils.isEmpty(venue.categories)}"
+                        style="@style/TextAppearance.AppCompat.Subhead"/>
 
                 <TextView
                         android:layout_width="wrap_content"

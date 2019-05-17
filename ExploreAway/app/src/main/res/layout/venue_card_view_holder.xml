@@ -42,7 +42,8 @@
             <TextView android:id="@+id/venue_category"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-                      android:text="@{!CollectionUtils.isEmpty(viewmodel.categories) ? viewmodel.categories.get(0).name : @string/empty}"
+                      android:text="@{CollectionUtils.isEmpty(viewmodel.categories) ? @string/empty : viewmodel.categories.get(0).name}"
+                      app:isVisible="@{!CollectionUtils.isEmpty(viewmodel.categories)}"
                       android:layout_below="@id/venue_address"
                       style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"/>
 

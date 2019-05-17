@@ -6,4 +6,5 @@
     <string name="welcome_to_seattle">Welcome to Seattle</string>
     <string name="error">Error</string>
     <string name="ok">OK</string>
+    <string name="empty"></string>
 </resources>
